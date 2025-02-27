@@ -235,7 +235,7 @@ If anything pops up asking you to agree to some terms and conditions, just agree
 This is literally something I put together in an hour for the sake of getting something to work, so don't expect too many things to work. For now, there's no VSCode and no serial I/O.
 
 ## Troubleshooting
-### Faling to Flash Code
+### Failing to Flash Code
 If you encounter a prompt like this when flashing your code:
 
 ![](./software/jlinkerr.png)
