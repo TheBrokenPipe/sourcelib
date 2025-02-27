@@ -2,6 +2,12 @@
 > [!IMPORTANT]
 > Only follow this guide if you know what you're doing and prefer not to use WSL and/or VPN, or if you cannot, for the life of you, get things to work according to the official guide(s). This guide is NOT endorsed by course staff and I (nor any course staff) will be responsible for ANY damage caused by following this guide.
 
+> [!IMPORTANT]
+> Currently, this guide only works for x86-64/AMD64 Windows PCs. While you may follow this guide if you are using an ARM64 Windows PC, the last step (flashing code onto your board) will not work due to the lack of ARM64 drivers (see [ARM64 Technical Details](#arm64-technical-details)).
+
+## Required Software
+- Python (install it yourself)
+
 ## Setting Up Environment
 For development on native Windows, we'll store our files under `%userprofile%\Documents\csse3010`, for example, in my case, `C:\Users\yufen\Documents\csse3010`.
 
@@ -37,15 +43,45 @@ git clone git@csse3010-gitea.zones.eait.uq.edu.au:47434477/repo.git
 Run `sourcelib_windows.bat` in `%userprofile%\Documents\csse3010\sourcelib\tools`.
 
 ## Installing the Programmer - JLink
-Download JLink from here - https://www.segger.com/downloads/jlink. Pick the right one to download based on your architecture, and install it.
+Download JLink from here ([x86-64](https://mega.nz/file/EdZmHTyS#60ndQFdQnf8LBRm7WcyBqtzGus-ItWiQnX2sU5wUWiM), [ARM64](https://mega.nz/file/kIJ33JoC#HM9tMv5blU64hi9dMpTT2WhKafaDlUH7FF-R4Hte0c8)). Pick the right one to download based on your architecture, and install it.
 
-If you're on Intel x86 (not ARM), then go to `C:\Program Files\SEGGER\JLink_V814\USBDriver` and double click on `InstDrivers.exe`. This would install the drivers which you'll need in order for your computer to recognise the programmer.
+When installing, <u>make sure you select "Install legacy USB Driver for J-Link (requires admin rights)"</u>. You might also want to unselect "Update DLL in other applications (requires admin rights)".
+
+![](./software/jlink.png)
 
 ## Installing the Compiler
-Download and install the compiler from here - https://developer.arm.com/downloads/-/gnu-rm.
+Download and install the compiler from [here](https://mega.nz/file/FUJFWSIB#fcQ2mwgArtKu_k5IqhOVizI4WNOABLwbS-oiffeKctI). Use default settings for everything.
 
 ## Installing GNU Make and Co.
-You'll need Cygwin in order to run the classic tools like `make` and `rm`. Download and installed it here - https://www.cygwin.com.
+You'll need Cygwin in order to run the classic UNIX tools like `make` and `rm`. Download and installed it here - https://www.cygwin.com.
+
+When prompted for download source, select "Install from Internet":
+
+![](./software/cygwin01.png)
+
+When prompted for root install directory, make sure you keep the default (`C:\cygwin64`):
+
+![](./software/cygwin02.png)
+
+When prompted for local package directory, just use the whatever default you see and press next:
+
+![](./software/cygwin03.png)
+
+When prompted for internet connection, continue with the default:
+
+![](./software/cygwin04.png)
+
+When prompted for download site, pick any but here I've chosen one hosted in Australia:
+
+![](./software/cygwin05.png)
+
+Next comes the important bit - when selecting packages, choose the "full" view, then scroll to the package named "make", click on the drop down button and select the latest version:
+
+![](./software/cygwin06.png)
+
+Finally, choose whether or not to create a desktop and/or start menu shortcut. I personally prefer to create a start menu shortcut but no desktop shortcut:
+
+![](./software/cygwin07.png)
 
 ## Compiling Code
 Now, just run `env.bat` in `%userprofile%\Documents\csse3010` and you'll get a terminal environment which allows you to compile and flash code. I have not tried to get VSCode to work yet, but that's on the todo list.
@@ -84,7 +120,7 @@ Flashing the code is another layer of hell, but in the ideal world, run `make fl
 
 ```
 C:\Users\yufen\Documents\csse3010\sourcelib\examples\getting-started\blink\nucleo-f429>make flash
-py C:\Users\yufen\Documents\csse3010\sourcelib/tools/programming/myflash.py
+python C:\Users\yufen\Documents\csse3010\sourcelib/tools/programming/myflash.py
 SEGGER J-Link Commander V8.14 (Compiled Feb 21 2025 15:53:21)
 DLL version V8.14, compiled Feb 21 2025 15:52:27
 
@@ -193,7 +229,36 @@ J-Link>OnDisconnectTarget() start
 OnDisconnectTarget() end - Took 1.12ms
 ```
 
-If anything pops up asking you to agree to some terms and conditions, just agree. If anything else happens, it may require closer inspection (post error/screenshot on Ed I guess; DO NOT email me).
+If anything pops up asking you to agree to some terms and conditions, just agree. If anything else happens, it may require closer inspection (see [Troubleshooting](#troubleshooting)).
 
 ## Limitations
 This is literally something I put together in an hour for the sake of getting something to work, so don't expect too many things to work. For now, there's no VSCode and no serial I/O.
+
+## Troubleshooting
+### Faling to Flash Code
+If you encounter a prompt like this when flashing your code:
+
+![](./software/jlinkerr.png)
+
+... then it means J-Link couldn't connect to the device. Possible causes:
+- Device not connected.
+  - Check to see if you have plugged your board in properly.
+- Device already in use.
+  - If you have already shared the connection with WSL via usbipd, then you may need to unplug and replug your board.
+- J-Link driver not installed.
+  - This is the most common cause of the issue.
+  - If you are on Intel x86 (not ARM64), go to `C:\Program Files\SEGGER\JLink_V814\USBDriver` and double click on `InstDrivers.exe`. This would install the drivers which you'll need in order for your computer to recognise the programmer.
+  - If you are on ARM64, unfortunately there is not much you can do to solve this issue.
+
+## ARM64 Technical Details
+### J-Link Drivers
+Everything works on ARM64, until the step where you flash your code. This is because J-Link only supports WinUSB on ARM64, and therefore is missing the drivers (namely "J-Link" and "J-Link CDC"). The "J-Link" driver is required for flashing the code, and the "J-Link CDC" driver is probably required for serial I/O (though Windows' generic serial device driver may also work).
+
+These drivers exist for x86-64 and x86-32, but not ARM. Drivers are a bit special as they run in kernel mode and may make use of hardware/platform-dependent code, so while they may install correctly, they are not emulated.
+
+### usbipd
+usbipd fails to work as the result of the service not running. The service fails to run as the result of missing the "VirtualBox USB" and "VirtualBox USB Monitor" drivers needed by SEGGER. By default, the x86-64 versions of these drivers are installed along with usbipd, and as mentioned earlier, they are not emulated and therefore causes usbipd's service to fail somewhat silently.
+
+The latest development snapshot of VirtualBox includes the ARM64 versions of these drivers, however experiment (sample size = 1) suggests that they do not install properly due to signature-related issues. Windows enforces signature verification on device drivers for security purposes, and therefore drivers with signature issues cannot be installed/loaded.
+
+It may be possible to put the device into "test mode", which allows for unsigned drivers to be loaded for development and testing purposes, however doing so is risky and therefore not tested. If you have done Windows kernel development before, you may try doing this yourself.

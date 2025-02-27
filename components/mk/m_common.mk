@@ -26,10 +26,10 @@ mflash:
 	python3 ${SOURCELIB_ROOT}/tools/programming/flash.py --bin main.bin --addr 0x08000000 --mcu STM32F429ZI --type SWD --speed 400 --erase --rst
 
 flash:
-	py ${SOURCELIB_ROOT}/tools/programming/myflash.py
+	python ${SOURCELIB_ROOT}/tools/programming/myflash.py
 
 run:
-	py ${SOURCELIB_ROOT}/tools/programming/myrun.py
+	python ${SOURCELIB_ROOT}/tools/programming/myrun.py
 	
 
 clean:
