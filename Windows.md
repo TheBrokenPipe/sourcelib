@@ -252,12 +252,12 @@ If you encounter a prompt like this when flashing your code:
 
 ## ARM64 Technical Details
 ### J-Link Drivers
-Everything works on ARM64, until the step where you flash your code. This is because J-Link only supports WinUSB on ARM64, and therefore is missing the drivers (namely "J-Link" and "J-Link CDC"). The "J-Link" driver is required for flashing the code, and the "J-Link CDC" driver is probably required for serial I/O (though Windows' generic serial device driver may also work).
+Everything works on ARM64, until the step where you flash your code. This is because J-Link only supports WinUSB on ARM64, and therefore is missing the drivers (namely "J-Link" and "J-Link CDC") needed by SEGGER. The "J-Link" driver is required for flashing the code, and the "J-Link CDC" driver is probably required for serial I/O (though Windows' generic serial device driver may also work).
 
 These drivers exist for x86-64 and x86-32, but not ARM. Drivers are a bit special as they run in kernel mode and may make use of hardware/platform-dependent code, so while they may install correctly, they are not emulated.
 
 ### usbipd
-usbipd fails to work as the result of the service not running. The service fails to run as the result of missing the "VirtualBox USB" and "VirtualBox USB Monitor" drivers needed by SEGGER. By default, the x86-64 versions of these drivers are installed along with usbipd, and as mentioned earlier, they are not emulated and therefore causes usbipd's service to fail somewhat silently.
+usbipd fails to work as the result of the service not running. The service fails to run as the result of missing the "VirtualBox USB" and "VirtualBox USB Monitor" drivers. By default, the x86-64 versions of these drivers are installed along with usbipd, and as mentioned earlier, they are not emulated and therefore causes usbipd's service to fail somewhat silently.
 
 The latest development snapshot of VirtualBox includes the ARM64 versions of these drivers, however experiment (sample size = 1) suggests that they do not install properly due to signature-related issues. Windows enforces signature verification on device drivers for security purposes, and therefore drivers with signature issues cannot be installed/loaded.
 
