@@ -1,12 +1,13 @@
 # Development on Windows without WSL
 > [!IMPORTANT]
-> Only follow this guide if you know what you're doing and prefer not to use WSL and/or VPN, or if you cannot, for the life of you, get things to work according to the official guide(s). This guide is NOT endorsed by course staff and I (nor any course staff) will be responsible for ANY damage caused by following this guide.
+> This is an unofficial guide for doing development work on Windows without WSL. It is not endorsed nor supported by course staff, and I am not responsible for any damage caused by follwoing this unofficial guide.
 
 > [!IMPORTANT]
-> Currently, this guide only works for x86-64/AMD64 Windows PCs. While you may follow this guide if you are using an ARM64 Windows PC, the last step (flashing code onto your board) will not work due to the lack of ARM64 drivers (see [ARM64 Technical Details](#arm64-technical-details)).
+> Currently, this guide only works for x86-64/AMD64 Windows PCs. While you may follow this guide if you are using an ARM64 Windows PC, the last step (flashing code onto your board) will not work due to the lack of ARM64 drivers (see [ARM64 Technical Details](#arm64-technical-details)). If you are using an ARM64 Windows device, you may try my unofficial [ARM64 guide](ARM64.md).
 
 ## Required Software
-- Python (install it yourself)
+- Git
+- Python
 
 ## Setting Up Environment
 For development on native Windows, we'll store our files under `%userprofile%\Documents\csse3010`, for example, in my case, `C:\Users\yufen\Documents\csse3010`.
@@ -17,7 +18,7 @@ md csse3010
 cd csse3010
 ```
 
-Under the csse3010 folder, we'll clone <u>sourcelib</u> and <u>repo</u>.
+Under the `csse3010` folder, we'll clone <u>sourcelib</u> and <u>repo</u>.
 
 > [!IMPORTANT]
 > sourcelib is the repository hosted on GitHub. repo is your repository hosted on UQ's server at https://csse3010-gitea.uqcloud.net/XXXXXXXX/repo, and the repository which you will be committing your code to. They are NOT the same.
@@ -33,10 +34,10 @@ git clone https://github.com/TheBrokenPipe/sourcelib.git
 > Note that this is my PERSONAL repo, NOT the official one. This repo has some modifications done to enable sourcelib to work under Microsoft Windows. This repo is NOT endorsed by course staff and I nor any course staff will be responsible for ANY damage caused by using this repo or following this UNOFFICIAL guide.
 
 ### repo
-Cloning repo <u>does</u> require VPN. If you can get the UQ VPN to work, then just turn on VPN. Otherwise, follow my unofficial guide here [#11](https://edstem.org/au/courses/21078/discussion/2436590) to clone the repo without VPN.
+Cloning repo <u>does</u> require VPN. You may either turn on UQ VPN, or follow my [no-VPN guide](./RepoNoVPN.md) to clone the repo without VPN. Replace `XXXXXXXX` with your student number.
 
 ```
-git clone git@csse3010-gitea.zones.eait.uq.edu.au:47434477/repo.git
+git clone git@csse3010-gitea.zones.eait.uq.edu.au:XXXXXXXX/repo.git
 ```
 
 # Installing sourcelib
@@ -47,7 +48,7 @@ Download JLink from here ([x86-64](https://mega.nz/file/EdZmHTyS#60ndQFdQnf8LBRm
 
 When installing, <u>make sure you select "Install legacy USB Driver for J-Link (requires admin rights)"</u>. You might also want to unselect "Update DLL in other applications (requires admin rights)".
 
-![](./software/jlink.png)
+![](./imgs/jlink.png)
 
 ## Installing the Compiler
 Download and install the compiler from [here](https://mega.nz/file/FUJFWSIB#fcQ2mwgArtKu_k5IqhOVizI4WNOABLwbS-oiffeKctI). Use default settings for everything.
@@ -57,31 +58,31 @@ You'll need Cygwin in order to run the classic UNIX tools like `make` and `rm`. 
 
 When prompted for download source, select "Install from Internet":
 
-![](./software/cygwin01.png)
+![](./imgs/cygwin01.png)
 
 When prompted for root install directory, make sure you keep the default (`C:\cygwin64`):
 
-![](./software/cygwin02.png)
+![](./imgs/cygwin02.png)
 
 When prompted for local package directory, just use the whatever default you see and press next:
 
-![](./software/cygwin03.png)
+![](./imgs/cygwin03.png)
 
 When prompted for internet connection, continue with the default:
 
-![](./software/cygwin04.png)
+![](./imgs/cygwin04.png)
 
 When prompted for download site, pick any but here I've chosen one hosted in Australia:
 
-![](./software/cygwin05.png)
+![](./imgs/cygwin05.png)
 
 Next comes the important bit - when selecting packages, choose the "full" view, then scroll to the package named "make", click on the drop down button and select the latest version:
 
-![](./software/cygwin06.png)
+![](./imgs/cygwin06.png)
 
 Finally, choose whether or not to create a desktop and/or start menu shortcut. I personally prefer to create a start menu shortcut but no desktop shortcut:
 
-![](./software/cygwin07.png)
+![](./imgs/cygwin07.png)
 
 ## Compiling Code
 Now, just run `env.bat` in `%userprofile%\Documents\csse3010` and you'll get a terminal environment which allows you to compile and flash code. I have not tried to get VSCode to work yet, but that's on the todo list.
@@ -116,7 +117,7 @@ arm-none-eabi-objcopy -O binary main.elf main.bin
 Yup, you have successfully compiled your first piece of code for this course.
 
 ## Flashing Your Code
-Flashing the code is another layer of hell, but in the ideal world, run `make flash` and the code should be flashed onto the board, like so:
+Ideally, run `make flash` and the code should be flashed onto the board, like so:
 
 ```
 C:\Users\yufen\Documents\csse3010\sourcelib\examples\getting-started\blink\nucleo-f429>make flash
@@ -229,7 +230,7 @@ J-Link>OnDisconnectTarget() start
 OnDisconnectTarget() end - Took 1.12ms
 ```
 
-If anything pops up asking you to agree to some terms and conditions, just agree. If anything else happens, it may require closer inspection (see [Troubleshooting](#troubleshooting)).
+If anything pops up asking you to agree to some terms and conditions, just agree. If anything else happens, it may require closer inspection (see [Troubleshooting](#troubleshooting)). If you are using an ARM64 device, flashing will NOT work.
 
 ## Limitations
 This is literally something I put together in an hour for the sake of getting something to work, so don't expect too many things to work. For now, there's no VSCode and no serial I/O.
@@ -238,7 +239,7 @@ This is literally something I put together in an hour for the sake of getting so
 ### Failing to Flash Code
 If you encounter a prompt like this when flashing your code:
 
-![](./software/jlinkerr.png)
+![](./imgs/jlinkerr.png)
 
 ... then it means J-Link couldn't connect to the device. Possible causes:
 - Device not connected.
@@ -261,4 +262,4 @@ usbipd fails to work as the result of the service not running. The service fails
 
 The latest development snapshot of VirtualBox includes the ARM64 versions of these drivers, however experiment (sample size = 1) suggests that they do not install properly due to signature-related issues. Windows enforces signature verification on device drivers for security purposes, and therefore drivers with signature issues cannot be installed/loaded.
 
-It may be possible to put the device into "test mode", which allows for unsigned drivers to be loaded for development and testing purposes, however doing so is risky and therefore not tested. If you have done Windows kernel development before, you may try doing this yourself.
+Check out [this page](./ARM64.md) for a potential workaround.
