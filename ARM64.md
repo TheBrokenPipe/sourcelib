@@ -1,11 +1,11 @@
-# ARM64 Support
+# Running usbipd on ARM64
 > [!IMPORTANT]
-> This is an unofficial guide for making usbipd work on ARM64 PCs. It is not endorsed nor supported by course staff, and I am not responsible for any damage caused by follwoing this unofficial guide.
+> This is an unofficial guide for making usbipd work on ARM64 PCs. It is not endorsed nor supported by course staff, and I am not responsible for any damage caused by following this unofficial guide.
 
 > [!IMPORTANT]
 > ARM64 support is currently EXTREMELY EXPERIMENTAL. So far, I'm the only person who managed to get it to work, on an emulated ARM64 device which differs considerably from production ARM64 PCs. This has NOT been tested on physical hardware, and may cause damage to your device. I am not responsible for any damage caused, you have been warned!
 
-J-Link rquires the J-Link driver for SEGGER, and that driver does not exist for ARM64. For this reason, ARM64 versions of J-Link only supports WinUSB. While the driver exists for x86-64, it cannot be used on ARM64 hardware.
+J-Link requires the J-Link driver for SEGGER, and that driver does not exist for ARM64. For this reason, ARM64 versions of J-Link only supports WinUSB. While the driver exists for x86-64, it cannot be used on ARM64 hardware.
 
 This essentially means that the code flashing can only be done in WSL (by following the official guide). The showstopper for using WSL here is that usbipd is required for USB passthrough, and usbipd relies on the Virtual Box USB and USB Monitor drivers for which production ones do not exist for ARM64.
 

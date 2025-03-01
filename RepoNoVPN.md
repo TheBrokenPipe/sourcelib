@@ -1,6 +1,6 @@
 # Accessing Repo Without UQ VPN
 > [!IMPORTANT]
-> This is an unofficial guide for accessing your repo without the need of UQ VPN. It is not endorsed nor supported by course staff, and I am not responsible for any damage caused by follwoing this unofficial guide.
+> This is an unofficial guide for accessing your repo without the need of UQ VPN. It is not endorsed nor supported by course staff, and I am not responsible for any damage caused by following this unofficial guide.
 
 This assumes that you're on a Windows 10+ computer or some UNIX-alike OS (e.g., macOS or Linux) where you have access to the `ssh` command. Proxy jump through moss will be used instead of the UQ VPN.
 
@@ -22,7 +22,7 @@ Host csse3010-gitea.zones.eait.uq.edu.au
 
 ## Cloning Your Repo
 - Open a command prompt or terminal.
-- Change to the appropiate directory.
+- Change to the appropriate directory.
   - `~/csse3010` for WSL/Linux/macOS if you are following the official guide.
   - `%userprofile%\Documents\csse3010` for Windows if you are following my unofficial guide.
 - Run `git clone git@csse3010-gitea.zones.eait.uq.edu.au:XXXXXXXX/repo.git`.

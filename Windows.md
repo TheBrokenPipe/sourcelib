@@ -1,6 +1,6 @@
 # Development on Windows without WSL
 > [!IMPORTANT]
-> This is an unofficial guide for doing development work on Windows without WSL. It is not endorsed nor supported by course staff, and I am not responsible for any damage caused by follwoing this unofficial guide.
+> This is an unofficial guide for doing development work on Windows without WSL. It is not endorsed nor supported by course staff, and I am not responsible for any damage caused by following this unofficial guide.
 
 > [!IMPORTANT]
 > Currently, this guide only works for x86-64/AMD64 Windows PCs. While you may follow this guide if you are using an ARM64 Windows PC, the last step (flashing code onto your board) will not work due to the lack of ARM64 drivers (see [ARM64 Technical Details](#arm64-technical-details)). If you are using an ARM64 Windows device, you may try my unofficial [ARM64 guide](ARM64.md).
@@ -87,7 +87,7 @@ Finally, choose whether or not to create a desktop and/or start menu shortcut. I
 ## Compiling Code
 Now, just run `env.bat` in `%userprofile%\Documents\csse3010` and you'll get a terminal environment which allows you to compile and flash code. I have not tried to get VSCode to work yet, but that's on the todo list.
 
-## Blinking LEDs
+### Blinking LEDs
 Once you run `env.bat`, go to the directory where the source code is stored:
 
 ```
