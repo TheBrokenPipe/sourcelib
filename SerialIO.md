@@ -32,7 +32,6 @@ int main(void)
     BRD_debuguart_init();
 
     debug_log("Hello World!\r\n");
-    printf("%d\r\n", GetInputBlocking());
     debug_log("***ECHO-TEST***\r\n\r\n");
 
     while (1)
