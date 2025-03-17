@@ -6,14 +6,16 @@
   * @brief   Nucleo debug log example. Prints to the console, every 2 seconds.
   *          Will detect and print key press to console
   * 
-  *          VM: Run serial terminal program script - kermusb
-  * 
-  *          Windows Native Installation: use Putty (Serial Connection/Port) with baudrate 115200.
-  *          Linux/OSX Native Installation: run in a terminal window:
-  *          kermusb
-  *          Alternate Linux/OSX, run in a terminal windows:
-  *          OSX: screen /dev/tty.usXXXXXXXX 115200
-  *          LINUX: screen /dev/ttyACMx 115200
+  *          VSCODE: Run serial terminal - Open Terminal -> New Terminal
+  *                  1) Click on "SERIAL MONITOR" and select:
+  *                       Port: /dev/ttyACM<x> (For WSL or Linux - e.g. /dev/ttyACM0)
+  *                       Port: /dev/tty.us<XXXXXXXX> (OSX only - select the port that starts with /dev/tty.us)
+  *                  2) "View Mode" must be set to "Text"
+  *                  3) Click "Start Monitoring". Type a letter/number and press <enter> in the box at the bottom of the terminal to send the key value.)
+  *
+  *          ALTERNATIVE TERMINALS: (Use only if VSCODE is unavailable)
+  *          WSL or LINUX: screen /dev/ttyACM<x> 115200 (For WSL or Linux - e.g. screen /dev/ttyACM0 115200)
+  *          OSX: screen /dev/tty.us<XXXXXXXX> 115200 (OSX only - select the port that starts with /dev/tty.us)
   ******************************************************************************
   */
 
